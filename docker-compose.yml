@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+
+  api:
+    build: docker/apache
+    container_name: connector-api
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/apache/ini/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
+      - ./docker/apache/ini/xdebug-php-ini-overrides.ini:/usr/local/etc/php/conf.d/xdebug-php-ini-overrides.ini
+    env_file:
+      - docker/apache/env/xdebug.env
+    expose:
+      # xdebug port
+      - 9001
+    ports:
+      - '8088:80'
+
+  adminer:
+    image: adminer
+    container_name: connector-api-adminer
+    restart: always
+    ports:
+      - '8086:8080'
