@@ -1,0 +1,21 @@
+{
+  "name": "izarrualde/connector-api",
+  "description": "API to connect with third party APIs",
+  "type": "project",
+  "authors": [
+    {
+      "name": "Izarrualde",
+      "email": "diego.r.izarrualde@gmail.com"
+    }
+  ],
+  "require": {
+    "guzzlehttp/guzzle": "^7.0",
+    "vlucas/phpdotenv": "^5.2"
+  },
+  "require-dev": {
+  },
+  "autoload": {
+    "psr-4": {
+    }
+  }
+}
