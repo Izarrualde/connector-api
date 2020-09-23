@@ -6,21 +6,34 @@ services:
     build: docker/apache
     container_name: connector-api
     working_dir: /var/www
+    ports:
+      - 8088:80
+    links:
+      - db:connector-mysql
     volumes:
       - .:/var/www
       - ./docker/apache/ini/php-ini-overrides.ini:/usr/local/etc/php/conf.d/php-ini-overrides.ini
       - ./docker/apache/ini/xdebug-php-ini-overrides.ini:/usr/local/etc/php/conf.d/xdebug-php-ini-overrides.ini
     env_file:
+      - docker/apache/env/db.env
+      - docker/apache/env/testing_db.env
       - docker/apache/env/xdebug.env
     expose:
       # xdebug port
       - 9001
-    ports:
-      - '8088:80'
+
+  db:
+    image: mysql:8.0
+    container_name: connector2-db
+    volumes:
+      - ./docker/mysql/conf.d:/etc/mysql/conf.d
+      - ./data/db/dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    env_file:
+      - docker/mysql/env/db.env
 
   adminer:
-    image: adminer
-    container_name: connector-api-adminer
+    build: docker/adminer
+    container_name: connector-adminer
     restart: always
     ports:
-      - '8086:8080'
+      - 8087:8089
